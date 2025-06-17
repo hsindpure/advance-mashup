@@ -1,0 +1,19 @@
+Create the  qliksense mashup project
+
+
+reuirement:
+
+
+
+single page with muliple tabs Admin dashboard using html5, angularjs 1st version and css3 with white, Navy blue and dark pink color theme palletee,
+
+Need to integrate the qliksense dashboard with qliksense web API and Qlik capability API,
+
+In every page there should be multiple charts present respective to page title, each chart has some discription and fullscreen and export button every chart should export the data in excel , Use QLiksense embadded Object with Object ids to load in web mashup
+
+Use Sample qliksense  app to integrate
+
+add latest User interface and amazing animation functionality for dahsboard and charts and KPIs
+
+add all the qiksense functionality like filter panel, clearall functionality , selection box with backword, forword , lock, unlock funtionality
+7)Add nice analytical icons for each pages , KPIs, and CHarts and menus
