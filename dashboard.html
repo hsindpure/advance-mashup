@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Pro - Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span class="logo-text">Analytics Pro</span>
+            </div>
+            <button id="hamburger" class="hamburger-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item active" data-tab="overview">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="nav-text">Overview</span>
+                </li>
+                <li class="nav-item" data-tab="sales">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="nav-text">Sales</span>
+                </li>
+                <li class="nav-item" data-tab="customers">
+                    <i class="fas fa-users"></i>
+                    <span class="nav-text">Customers</span>
+                </li>
+                <li class="nav-item" data-tab="products">
+                    <i class="fas fa-box"></i>
+                    <span class="nav-text">Products</span>
+                </li>
+                <li class="nav-item" data-tab="analytics">
+                    <i class="fas fa-chart-pie"></i>
+                    <span class="nav-text">Analytics</span>
+                </li>
+                <li class="nav-item" data-tab="reports">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="nav-text">Reports</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1 id="page-title">Overview Dashboard</h1>
+                <p id="page-subtitle">Real-time analytics and insights</p>
+            </div>
+            <div class="header-right">
+                <!-- Filter Toggle Button -->
+                <button class="filter-toggle-btn" id="header-filter-toggle" title="Toggle Filters">
+                    <i class="fas fa-filter"></i>
+                    <span>Filters</span>
+                </button>
+                
+                <!-- Qlik Sense Selection Tools -->
+                <div class="selection-tools">
+                    <button class="tool-btn" id="backward-btn" title="Backward">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button class="tool-btn" id="forward-btn" title="Forward">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="tool-btn" id="lock-btn" title="Lock Selections">
+                        <i class="fas fa-lock"></i>
+                    </button>
+                    <button class="tool-btn" id="unlock-btn" title="Unlock Selections">
+                        <i class="fas fa-unlock"></i>
+                    </button>
+                    <button class="tool-btn" id="clear-btn" title="Clear All Selections">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+            <div class="filter-header">
+                <i class="fas fa-filter"></i>
+                <span>Filters</span>
+                <button class="filter-toggle" id="filter-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="filter-content" id="filter-content">
+                <div class="filter-group">
+                    <label>Date Range:</label>
+                    <select id="date-filter">
+                        <option value="7d">Last 7 days</option>
+                        <option value="30d" selected>Last 30 days</option>
+                        <option value="90d">Last 90 days</option>
+                        <option value="1y">Last year</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Region:</label>
+                    <select id="region-filter">
+                        <option value="all" selected>All Regions</option>
+                        <option value="north">North</option>
+                        <option value="south">South</option>
+                        <option value="east">East</option>
+                        <option value="west">West</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Category:</label>
+                    <select id="category-filter">
+                        <option value="all" selected>All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="books">Books</option>
+                        <option value="home">Home & Garden</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Overview Tab -->
+            <div id="overview-tab" class="tab-pane active">
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="total-revenue">$0</h3>
+                            <p>Total Revenue</p>
+                            <span class="kpi-change positive">+12.5%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="total-orders">0</h3>
+                            <p>Total Orders</p>
+                            <span class="kpi-change positive">+8.3%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="total-customers">0</h3>
+                            <p>Active Customers</p>
+                            <span class="kpi-change positive">+15.7%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="conversion-rate">0%</h3>
+                            <p>Conversion Rate</p>
+                            <span class="kpi-change negative">-2.1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Revenue Trend</h3>
+                                <p>Monthly revenue performance over time</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('revenue-chart', 'Revenue_Trend')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('revenue-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="revenue-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Sales by Category</h3>
+                                <p>Distribution of sales across product categories</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('category-chart', 'Sales_by_Category')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('category-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="category-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Tab -->
+            <div id="sales-tab" class="tab-pane">
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Daily Sales</h3>
+                                <p>Daily sales performance for the current month</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('daily-sales-chart', 'Daily_Sales')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('daily-sales-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="daily-sales-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Sales by Region</h3>
+                                <p>Regional sales distribution and performance</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('regional-sales-chart', 'Regional_Sales')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('regional-sales-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="regional-sales-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container full-width">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Sales vs Target</h3>
+                                <p>Comparison of actual sales against monthly targets</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('target-chart', 'Sales_vs_Target')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('target-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="target-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers Tab -->
+            <div id="customers-tab" class="tab-pane">
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Customer Acquisition</h3>
+                                <p>New customer acquisition trends over time</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('acquisition-chart', 'Customer_Acquisition')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('acquisition-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="acquisition-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Customer Segments</h3>
+                                <p>Distribution of customers by value segments</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('segments-chart', 'Customer_Segments')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('segments-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="segments-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="products-tab" class="tab-pane">
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Top Products</h3>
+                                <p>Best performing products by sales volume</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('top-products-chart', 'Top_Products')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('top-products-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="top-products-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Inventory Status</h3>
+                                <p>Current inventory levels by category</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('inventory-chart', 'Inventory_Status')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('inventory-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="inventory-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" class="tab-pane">
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Traffic Sources</h3>
+                                <p>Website traffic breakdown by source</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('traffic-chart', 'Traffic_Sources')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('traffic-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="traffic-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Conversion Funnel</h3>
+                                <p>Customer journey from visitor to purchase</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('funnel-chart', 'Conversion_Funnel')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('funnel-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="funnel-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports-tab" class="tab-pane">
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>Performance Metrics</h3>
+                                <p>Key performance indicators over time</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('performance-chart', 'Performance_Metrics')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('performance-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="performance-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-info">
+                                <h3>ROI Analysis</h3>
+                                <p>Return on investment by marketing channel</p>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="chart-btn" onclick="exportChart('roi-chart', 'ROI_Analysis')">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                                <button class="chart-btn" onclick="fullscreenChart('roi-chart')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="roi-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Modal -->
+    <div id="fullscreen-modal" class="fullscreen-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Chart</h3>
+                <button class="modal-close" onclick="closeFullscreen()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <canvas id="modal-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data-generator.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
